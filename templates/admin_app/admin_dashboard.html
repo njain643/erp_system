@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div>
+        <h1>Succefully login in admin dashboard</h1>
+        <div style="float:right;font-size:20px;">
+          <a href="{% url 'admin_app:logout' %}">Logout</a>
+        </div>
+    </div>
+    <h2 align="center">User Data</h2>
+    <table>
+      <tr>
+          <th></th>
+          <th>Name</th>
+          <th>DOB</th>
+          <th>Country</th>
+          <th>Email</th>
+          <th>Salary</th>
+      </tr>
+      {% if users %}
+      {% for user in users %}
+      <tr>
+          <div id="checkboxes">
+              <td><input type="checkbox" class="radio"/></td></div>
+          <td>{{user.full_name}}</td>
+          <td>{{user.dob}}</td>
+          <td>{{user.country}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.salary}}</td>
+      </tr>
+      {% endfor %}
+      {% else %}
+        <span style="color:red;">No data</span>
+      {% endif %}
+    </table>
+    <input type="submit" name="modifyData" class="button" id ="modifyData" value=" Modify " />
+    <input type="submit" name="addData" class="button" id ="addData" value=" Add " />
+    <input type="submit" name="deleteData" class="button" id ="deleteData" value=" Delete " />
+
+</body>
+</html>
