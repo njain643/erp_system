@@ -1,0 +1,25 @@
+Download file:
+
+If you want to serve pdf file located in your file system then you need to understand some terminology .
+
+Content-Type Header : The Content-Type entity header is used to indicate the media type of the resource . it basically used for MIME type .
+
+response[‘content_type’] = ‘application/pdf’
+Content-Disposition Header : In a regular HTTP response, the Content-Disposition response header is a header indicating if the content is expected to be displayed inline in the browser, that is, as a Web page or as part of a Web page, or as an attachment, that is downloaded and saved locally.
+
+you want it download automatically so use attachment
+
+response['Content-Disposition'] = 'attachment;filename=file.pdf'
+Now Simple return HttpResponse with pdf content
+
+with open('path/test.pdf', 'rb') as pdf:
+	response = HttpResponse(pdf.read())
+	reponse['content_type'] = 'application/pdf'
+	response['Content-Disposition'] = 'attachment;filename=file.pdf'
+	return response
+Just by changing MIME type we can indicate to the browser that we’ve returned a response of a different format.
+-------------------------------------------------------------------------------------------------------------------------------------
+
+json.loads = Convert Json to Dictionary
+
+json.dumps = Convert Dictionary to Json

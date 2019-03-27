@@ -3,7 +3,7 @@ from . import models
 from user_app.models import UserData
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
-
+from reportlab.pdfgen import canvas
 
 # Create your views here.
 
@@ -26,10 +26,6 @@ def set_session(request,uname,pwd):
 
 
 def admindashboard(request):
-    print(request.method)
-    print(request.body)
-    if request.method == 'GET':
-
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('pass')
@@ -61,3 +57,26 @@ def upload(request):
     filename = fs.save(file.name,file)
     file_url = fs.url(filename)
     return render(request,'admin_app/upload.html',{'file_url': file_url})
+
+def download(request):
+    return render(request,'admin_app/download.html')
+
+def downloadtextfile(request):
+    with open("./files/InterviewRelated",'rb') as file:
+        response = HttpResponse(file.read(),content_type='text/plain')
+        response['Content-Disposition'] = 'inline;filename=download.txt'
+        return response
+def downloadpdffile(request):
+    with open("./files/Nikhil_Jain_Resume.pdf",'rb') as file:
+        response = HttpResponse(file.read(),content_type='application/pdf')
+        response['Content-Disposition'] = 'attachement;filename=download.pdf'
+        return response
+
+def generatepdf(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline;filename=somefilename.pdf'
+    p = canvas.Canvas(response)
+    p.drawString(100,100,"Hello World")
+    p.showPage()
+    p.save()
+    return response
